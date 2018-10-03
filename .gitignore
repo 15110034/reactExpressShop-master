@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
+DocumentDoAn
 /dist
-/build
+.git
 
 # local env files
 .env.local

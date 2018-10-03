@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "shopFlowerFront ",
   "main": "server/index.js",
+  "private": true,
+  "workspaces": [
+    "client/*"
+  ],
   "scripts": {
     "start": "babel-node server",
-    "prestart": "cd client && yarn && yarn build",
+    "build": "cd client && yarn && yarn build",
     "server": "nodemon --exec babel-node server",
     "client": "npm start --prefix client ",
     "dev": "concurrently \"npm run server\" \"npm run client\""
