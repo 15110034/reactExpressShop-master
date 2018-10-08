@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MongoDb" id="Project_5944650" template="Default" database="MongoDb" >
+	<schema name="SHOPBANHOA" catalogname="SHOPBANHOA" >
+		<table name="category" >
+			<column name="name" type="string" jt="12" mandatory="y" />
+			<column name="productId" type="array" jt="2003" mandatory="y" />
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="fk_category_product" virtual="y" to_schema="SHOPBANHOA" to_table="product" >
+				<fk_column name="productId" pk="productId" />
+			</fk>
+		</table>
+		<table name="item" generator_rows="225" >
+			<column name="itemId" type="string" jt="12" mandatory="y" />
+			<column name="productId" type="string" jt="12" mandatory="y" regexp="load_values_from_pk" />
+			<column name="quantity" type="integer" jt="4" mandatory="y" regexp="int:from=0;to=1000;" />
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<index name="_1" unique="UNIQUE" >
+				<column name="itemId" />
+				<column name="productId" />
+			</index>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_item_order" virtual="y" to_schema="SHOPBANHOA" to_table="order" >
+				<fk_column name="itemId" pk="items" />
+			</fk>
+		</table>
+		<table name="order" generator_rows="150" >
+			<comment><![CDATA[order table for SHOPBANHOA]]></comment>
+			<column name="orderId" type="string" jt="12" mandatory="y" regexp="uuid:pattern=[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" />
+			<column name="userId" type="string" jt="12" mandatory="y" >
+				<comment><![CDATA[user of SHOPBANHOA]]></comment>
+			</column>
+			<column name="items" type="array" jt="2003" mandatory="y" regexp="load_values_from_pk" >
+				<comment><![CDATA[item is a product in cart]]></comment>
+			</column>
+			<column name="address" type="string" jt="12" mandatory="y" >
+				<comment><![CDATA[addressof customer]]></comment>
+			</column>
+			<column name="name" type="string" jt="12" mandatory="y" >
+				<comment><![CDATA[name of customer]]></comment>
+			</column>
+			<column name="phoneNumber" type="string" jt="12" mandatory="y" regexp="((\([0-9]{3}\) )|([0-9]{3}-))[0-9]{3}-[0-9]{4}" >
+				<comment><![CDATA[phone number of customer]]></comment>
+			</column>
+			<column name="status" type="string" jt="12" mandatory="y" regexp="submit" />
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<index name="_2" unique="UNIQUE" >
+				<column name="orderId" />
+				<column name="userId" />
+			</index>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_order_user" virtual="y" to_schema="SHOPBANHOA" to_table="user" >
+				<fk_column name="userId" pk="userId" />
+			</fk>
+		</table>
+		<table name="product" generator_rows="337" >
+			<comment><![CDATA[product table for SHOPBANHOA]]></comment>
+			<column name="productId" type="string" jt="12" mandatory="y" regexp="uuid:" />
+			<column name="title" type="string" jt="12" mandatory="y" regexp="(Re|Ad|Par|Tru|Thru|In|Bar|Cip|Dop|End|Em|Fro|Gro|Hap|Kli|Lom|Mon|Qwi|Rap|Sup|Sur|Tip|Tup|Un|Up|Var|Win|Zee)(ban|cad|dud|dim|er|frop|glib|hup|jub|kil|mun|nip|peb|pick|quest|rob|sap|sip|tan|tin|tum|ven|wer|werp|zap)(il|ic|im|in|up|ad|ack|am|on|ep|ed|ef|eg|aqu|ef|edg|op|oll|omm|ew|an|ex|pl)?(icator|or|ar|ax|an|ex|istor|entor|antor|in|over|ower|azz)" >
+				<comment><![CDATA[title for product]]></comment>
+			</column>
+			<column name="images" type="array" length="800" decimal="0" jt="2003" mandatory="y" regexp="http://[a-z]{3,5}.(web|net|local)[a-z]{0,1}[0-9]{0,2}/([a-z]{5}/){1,4}[a-z]{3,5}.(png)" >
+				<comment><![CDATA[array images for product]]></comment>
+			</column>
+			<column name="description" type="string" length="800" decimal="0" jt="12" mandatory="y" regexp="((I|Mike|Rudi) (loves flowers|like sports|like swimming|watches football). ){1,2}" >
+				<comment><![CDATA[description for product]]></comment>
+			</column>
+			<column name="code" type="string" jt="12" mandatory="y" regexp="MKOO[0-9]{3}" >
+				<comment><![CDATA[code for product]]></comment>
+			</column>
+			<column name="price" type="integer" length="800" decimal="0" jt="4" mandatory="y" >
+				<comment><![CDATA[price for product]]></comment>
+			</column>
+			<column name="stock" type="integer" jt="4" mandatory="y" regexp="int:from=0;to=1000;" >
+				<comment><![CDATA[stock for product]]></comment>
+			</column>
+			<column name="descriptionContents" type="string" length="800" decimal="0" jt="12" mandatory="y" regexp="((John|Anne|Tony) (has free time|bought new car|is shopping|is walking). ){4,5}" >
+				<comment><![CDATA[description Contents for product]]></comment>
+			</column>
+			<column name="coupon" type="integer" jt="4" mandatory="y" regexp="int:from=0;to=100;" />
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<index name="_0" unique="UNIQUE" >
+				<column name="productId" />
+			</index>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Fk_product_item" virtual="y" to_schema="SHOPBANHOA" to_table="item" >
+				<fk_column name="productId" pk="productId" />
+			</fk>
+		</table>
+		<table name="shop" generator_rows="100" >
+			<comment><![CDATA[info shop of SHOPBANHOA]]></comment>
+			<column name="shopId" type="string" jt="12" mandatory="y" regexp="uuid:pattern=[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" />
+			<column name="name" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="imageLogo" type="string" length="800" decimal="0" jt="12" mandatory="y" regexp="http://[a-z]{3,5}.(web|net|local)[a-z]{0,1}[0-9]{0,2}/([a-z]{5}/){1,4}[a-z]{3,5}.(png)" />
+			<column name="deliveryContents" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="shopAddress" type="array" length="800" decimal="0" jt="2003" mandatory="y" />
+			<column name="hotline" type="string" length="800" decimal="0" jt="12" mandatory="y" regexp="((\([0-9]{3}\) )|([0-9]{3}-))[0-9]{3}-[0-9]{4}" />
+			<column name="email" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="facebook" type="string" length="800" decimal="0" jt="12" mandatory="y" regexp="https://facebook.com/[0-9]{5}" />
+			<column name="instagram" type="string" length="800" decimal="0" jt="12" mandatory="y" regexp="https://instagram.com/[0-9]{5}" />
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="user" generator_rows="100" >
+			<comment><![CDATA[user of SHOPBANHOA]]></comment>
+			<column name="userId" type="string" jt="12" mandatory="y" regexp="uuid:pattern=[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" />
+			<column name="email" type="string" jt="12" mandatory="y" regexp="($First Name)[0-9]{0,3}@example.com" >
+				<comment><![CDATA[email of user]]></comment>
+			</column>
+			<column name="password" type="string" jt="12" mandatory="y" regexp="uuid:pattern=[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" >
+				<comment><![CDATA[password of user]]></comment>
+			</column>
+			<column name="role" type="string" jt="12" mandatory="y" regexp="customer" >
+				<comment><![CDATA[role of user]]></comment>
+			</column>
+			<column name="name" type="string" length="800" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[name of user]]></comment>
+			</column>
+			<column name="address" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="phoneNumber" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<index name="_3" unique="UNIQUE" >
+				<column name="userId" />
+			</index>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+	</schema>
+	<connector name="MongoDb" database="MongoDb" driver_class="com.dbschema.MongoJdbcDriver" driver_jar="mongojdbc1.2.jar" driver_desc="No Authentication" host="localhost" port="27017" instance="SHOPBANHOA" />
+	<layout name="Default Layout" id="Layout_4613a15" joined_routing="y" show_relation="columns" >
+		<entity schema="SHOPBANHOA" name="user" color="C1D8EE" x="560" y="96" />
+		<entity schema="SHOPBANHOA" name="shop" color="C1D8EE" x="768" y="96" />
+		<entity schema="SHOPBANHOA" name="product" color="C1D8EE" x="48" y="80" />
+		<entity schema="SHOPBANHOA" name="item" color="C1D8EE" x="272" y="48" />
+		<entity schema="SHOPBANHOA" name="category" color="C1D8EE" x="240" y="224" />
+		<entity schema="SHOPBANHOA" name="order" color="C1D8EE" x="384" y="112" />
+		<script name="Sample" id="Editor_26813fd" language="SQL" >
+			<string><![CDATA[db.sampleCollection.insert({"SampleKey":"SampleValue"});]]></string>
+		</script>
+		<script name="product" id="Editor_1ba7274" language="SQL" >
+			<string><![CDATA[SHOPBANHOA.product.find()]]></string>
+		</script>
+		<query id="Query_145db8e" name="Builder_001" >
+			<query_table schema="SHOPBANHOA" name="product" alias="product" x="48" y="48" >
+				<column name="productId" />
+				<column name="title" />
+				<column name="images" />
+				<column name="description" />
+				<column name="code" />
+				<column name="price" />
+				<column name="stock" />
+				<column name="descriptionContents" />
+				<column name="coupon" />
+				<query_table schema="SHOPBANHOA" name="item" alias="item" x="240" y="48" fk="Fk_product_item" type="Inner Join" >
+					<column name="itemId" />
+					<column name="productId" />
+					<column name="quantity" />
+					<query_table schema="SHOPBANHOA" name="order" alias="order" x="384" y="48" fk="Fk_item_order" type="Inner Join" >
+						<column name="orderId" />
+						<column name="userId" />
+						<column name="items" />
+						<column name="address" />
+						<column name="name" />
+						<column name="phoneNumber" />
+						<column name="status" />
+						<query_table schema="SHOPBANHOA" name="user" alias="user" x="544" y="48" fk="Fk_order_user" type="Inner Join" />
+					</query_table>
+				</query_table>
+			</query_table>
+		</query>
+	</layout>
+	<layout name="Layout" id="Layout_29773fd" joined_routing="y" show_column_type="y" show_schema_name="y" show_page_borders="y" show_relation="columns" >
+		<comment><![CDATA[Layout]]></comment>
+		<entity schema="SHOPBANHOA" name="order" color="BED3F4" x="48" y="80" />
+		<entity schema="SHOPBANHOA" name="item" color="BED3F4" x="64" y="288" />
+		<entity schema="SHOPBANHOA" name="product" color="BED3F4" x="48" y="416" />
+		<entity schema="SHOPBANHOA" name="shop" color="3986C1" x="256" y="208" />
+		<entity schema="SHOPBANHOA" name="category" color="BED3F4" x="480" y="448" />
+		<entity schema="SHOPBANHOA" name="user" color="BED3F4" x="480" y="96" />
+		<group name="item" color="ECF0F7" >
+			<entity schema="SHOPBANHOA" name="item" />
+			<entity schema="SHOPBANHOA" name="order" />
+			<entity schema="SHOPBANHOA" name="product" />
+			<entity schema="SHOPBANHOA" name="user" />
+			<entity schema="SHOPBANHOA" name="category" />
+		</group>
+	</layout>
+</project>
