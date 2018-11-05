@@ -8,23 +8,19 @@ import getAuth from "./router/getAuth";
 import RouterApp from "./router/Router";
 
 class App extends Component {
-  state = {
-    loading: false
-  };
-  async componentDidMount() {
-    this.setState({ loading: true });
-    const email = await getAuth();
+  state = { loading: true };
+  componentDidMount = async () => {
     const { dispatch } = this.props;
 
-    await dispatch(isLoginAction(email));
+    await dispatch(isLoginAction());
     this.setState({ loading: false });
-  }
+  };
 
   render() {
-    if (!this.state.loading) {
-      return <RouterApp />;
+    if (this.state.loading) {
+      return null;
     }
-    return null;
+    return <RouterApp />;
   }
 }
 

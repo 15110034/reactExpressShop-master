@@ -3,11 +3,9 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 const PrivateRoute = ({ component: Component = null, ...rest }) => {
-  const { isLogin = null } = rest;
   const thisRender = props => {
-    const isAuth = isLogin;
-    console.log(isAuth);
-    if (!isAuth) {
+    const { isLogin = null } = rest;
+    if (!isLogin) {
       return (
         <Redirect
           to={{
