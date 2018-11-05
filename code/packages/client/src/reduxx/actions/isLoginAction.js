@@ -5,12 +5,8 @@ const ChanceLogin = isLogin => ({
   isLogin
 });
 
-const isLoginAction = email => async (dispatch, getState) => {
-  let isLogin = false;
-  if (email) {
-    isLogin = true;
-  }
-  dispatch(ChanceLogin(isLogin));
+const isLoginAction = (email = null) => async (dispatch, getState) => {
+  dispatch(ChanceLogin(email));
 };
 
 export default isLoginAction;

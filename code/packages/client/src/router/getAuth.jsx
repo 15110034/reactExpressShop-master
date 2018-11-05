@@ -11,7 +11,7 @@ async function getAuth() {
   if (!email) {
     return false;
   }
-  return true;
+  return email;
 }
 
 export default getAuth;

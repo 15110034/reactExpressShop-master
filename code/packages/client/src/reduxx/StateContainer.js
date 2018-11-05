@@ -10,6 +10,7 @@ class StateContainer extends Container {
     return await this.setState({ email: email });
   };
 }
+
 class CounterContainer extends Container {
   state = { email: "" };
   setEmail(email) {
