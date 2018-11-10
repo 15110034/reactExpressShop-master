@@ -1,6 +1,6 @@
 import React from "react";
 
-export function NavPagination({}) {
+export function NavPagination({ productItem }) {
   return (
     <nav className="pagination">
       <div>
@@ -14,24 +14,18 @@ export function NavPagination({}) {
               &lt;
             </a>
           </li>
-          <li className="current">
-            <a
-              rel="nofollow"
-              href="https://ld-prestashop.template-help.com/prestashop_13106/index.php?controller=category&id_category=14&id_lang=1&page=1"
-              className="disabled js-search-link"
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              rel="nofollow"
-              href="https://ld-prestashop.template-help.com/prestashop_13106/index.php?controller=category&id_category=14&id_lang=1&page=2"
-              className="js-search-link"
-            >
-              2
-            </a>
-          </li>
+          {productItem.map((data, i) => (
+            <li className={i === 0 ? "" : "current"} key={data._id}>
+              <a
+                rel="nofollow"
+                href="https://ld-prestashop.template-help.com/prestashop_13106/index.php?controller=category&id_category=14&id_lang=1&page=1"
+                className="disabled js-search-link"
+              >
+                {i}
+              </a>
+            </li>
+          ))}
+
           <li>
             <a
               rel="next"

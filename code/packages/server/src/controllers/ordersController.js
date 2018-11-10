@@ -1,4 +1,4 @@
-const ordersModel = require('../models/ordersModel.js');
+const OrdersModel = require('../models/ordersModel.js');
 
 /**
  * ordersController.js
@@ -10,7 +10,7 @@ module.exports = {
    * ordersController.list()
    */
   list(req, res) {
-    ordersModel.find((err, orderss) => {
+    OrdersModel.find((err, orderss) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when getting orders.',
@@ -25,8 +25,8 @@ module.exports = {
    * ordersController.show()
    */
   show(req, res) {
-    const id = req.params.id;
-    ordersModel.findOne({ _id: id }, (err, orders) => {
+    const { id } = req.params;
+    OrdersModel.findOne({ _id: id }, (err, orders) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when getting orders.',
@@ -46,7 +46,7 @@ module.exports = {
    * ordersController.create()
    */
   create(req, res) {
-    const orders = new ordersModel({
+    const orders = new OrdersModel({
       code: req.body.code,
       createdate: req.body.createdate,
       status: req.body.status,
@@ -55,14 +55,14 @@ module.exports = {
       products: req.body.products,
     });
 
-    orders.save((err, orders) => {
+    orders.save((err, ordersData) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when creating orders',
           error: err,
         });
       }
-      return res.status(201).json(orders);
+      return res.status(201).json(ordersData);
     });
   },
 
@@ -70,8 +70,8 @@ module.exports = {
    * ordersController.update()
    */
   update(req, res) {
-    const id = req.params.id;
-    ordersModel.findOne({ _id: id }, (err, orders) => {
+    const { id } = req.params;
+    OrdersModel.findOne({ _id: id }, (err, orders) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when getting orders',
@@ -91,15 +91,15 @@ module.exports = {
       orders.user = req.body.user ? req.body.user : orders.user;
       orders.products = req.body.products ? req.body.products : orders.products;
 
-      orders.save((err, orders) => {
-        if (err) {
+      orders.save((errOrder, ordersData) => {
+        if (errOrder) {
           return res.status(500).json({
             message: 'Error when updating orders.',
-            error: err,
+            error: errOrder,
           });
         }
 
-        return res.json(orders);
+        return res.json(ordersData);
       });
     });
   },
@@ -108,11 +108,11 @@ module.exports = {
    * ordersController.remove()
    */
   remove(req, res) {
-    const id = req.params.id;
-    ordersModel.findByIdAndRemove(id, (err, orders) => {
+    const { id } = req.params;
+    OrdersModel.findByIdAndRemove(id, (err) => {
       if (err) {
         return res.status(500).json({
-          message: 'Error when deleting the orders.',
+          message: 'Error when deleting the ordersData.',
           error: err,
         });
       }

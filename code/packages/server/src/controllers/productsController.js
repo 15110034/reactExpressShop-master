@@ -1,4 +1,4 @@
-const productsModel = require('../models/productsModel.js');
+const ProductsModel = require('../models/productsModel.js');
 
 /**
  * productsController.js
@@ -10,7 +10,7 @@ module.exports = {
    * productsController.list()
    */
   list(req, res) {
-    productsModel.find((err, productss) => {
+    ProductsModel.find((err, productss) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when getting products.',
@@ -25,8 +25,8 @@ module.exports = {
    * productsController.show()
    */
   show(req, res) {
-    const id = req.params.id;
-    productsModel.findOne({ _id: id }, (err, products) => {
+    const { id } = req.params;
+    ProductsModel.findOne({ _id: id }, (err, products) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when getting products.',
@@ -46,7 +46,7 @@ module.exports = {
    * productsController.create()
    */
   create(req, res) {
-    const products = new productsModel({
+    const products = new ProductsModel({
       code: req.body.code,
       name: req.body.name,
       price: req.body.price,
@@ -54,16 +54,18 @@ module.exports = {
       stock: req.body.stock,
       category: req.body.category,
       status: req.body.status,
+      imageUrl: req.body.imageUrl,
+      galleryImage: req.body.galleryImage,
     });
 
-    products.save((err, products) => {
+    products.save((err, productsData) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when creating products',
           error: err,
         });
       }
-      return res.status(201).json(products);
+      return res.status(201).json(productsData);
     });
   },
 
@@ -71,8 +73,8 @@ module.exports = {
    * productsController.update()
    */
   update(req, res) {
-    const id = req.params.id;
-    productsModel.findOne({ _id: id }, (err, products) => {
+    const { id } = req.params;
+    ProductsModel.findOne({ _id: id }, (err, products) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when getting products',
@@ -92,16 +94,18 @@ module.exports = {
       products.stock = req.body.stock ? req.body.stock : products.stock;
       products.category = req.body.category ? req.body.category : products.category;
       products.status = req.body.status ? req.body.status : products.status;
+      products.imageUrl = req.body.imageUrl ? req.body.imageUrl : products.imageUrl;
+      products.galleryImage = req.body.galleryImage ? req.body.galleryImage : products.galleryImage;
 
-      products.save((err, products) => {
-        if (err) {
+      products.save((errProduct, productsData) => {
+        if (errProduct) {
           return res.status(500).json({
             message: 'Error when updating products.',
-            error: err,
+            error: errProduct,
           });
         }
 
-        return res.json(products);
+        return res.json(productsData);
       });
     });
   },
@@ -110,8 +114,8 @@ module.exports = {
    * productsController.remove()
    */
   remove(req, res) {
-    const id = req.params.id;
-    productsModel.findByIdAndRemove(id, (err, products) => {
+    const { id } = req.params;
+    ProductsModel.findByIdAndRemove(id, (err) => {
       if (err) {
         return res.status(500).json({
           message: 'Error when deleting the products.',

@@ -10,6 +10,8 @@ const productsSchema = new Schema({
   stock: String,
   category: String,
   status: String,
+  imageUrl: String,
+  galleryImage: [],
 });
 
 module.exports = mongoose.model('products', productsSchema);

@@ -1,12 +1,6 @@
 import React from "react";
 
-export function ProductItem({
-  imageUrl,
-  galleryImage,
-  name,
-  newPrice,
-  regularPrice
-}) {
+export function ProductItem({ imageUrl, galleryImage, name, price }) {
   return (
     <article
       className="product-miniature js-product-miniature"
@@ -24,11 +18,12 @@ export function ProductItem({
         </a>
         <div className="gallery-wrapper">
           <ul className="gallery-thumb-list">
-            {galleryImage.map(imageGalleryUrl => (
+            {galleryImage.map((imageGalleryUrl, i) => (
               <li
                 className="gallery-image-thumb active"
                 style={{ width: "20%" }}
-                id={imageGalleryUrl}
+                id={`gallery-image-thumb-${i}`}
+                key={`gallery-image-thumb-${i}`}
               >
                 <span
                   data-href={imageGalleryUrl}
@@ -57,10 +52,10 @@ export function ProductItem({
             <div className="product-price-and-shipping">
               <span className="sr-only">Price</span>
               <span itemProp="price" className="price new-price">
-                {newPrice}
+                {price}
               </span>
               <span className="sr-only">Regular price</span>
-              <span className="regular-price" />
+              <span className="regular-price">{price}</span>
             </div>
           </div>
           <div className="right" />
